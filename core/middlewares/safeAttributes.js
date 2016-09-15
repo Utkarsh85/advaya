@@ -1,4 +1,4 @@
-var models= require('path').resolve('./advaya').models;
+var models= require(require('path').resolve('./advaya')).models();
 
 module.exports= function (req,res,next) {
 	if(req.options.action === "update")	

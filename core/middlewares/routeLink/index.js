@@ -1,5 +1,5 @@
-var models= require('path').resolve('./advaya').models;
-var controllers= require('path').resolve('./advaya').controllers;
+var models= require(require('path').resolve('./advaya')).models();
+var controllers= require(require('path').resolve('./advaya')).controllers();
 
 module.exports= function (app) {
 

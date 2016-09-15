@@ -1,5 +1,5 @@
 var acl= require('./utils/acl');
-var token= require('path').resolve('./advaya').token;
+var token= require(require('path').resolve('./advaya')).token();
 var defaults= acl.defaults();
 
 module.exports= function (req,res,next) {
