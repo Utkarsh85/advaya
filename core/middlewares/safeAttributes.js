@@ -1,23 +1,23 @@
-var models= require(require('path').resolve('./advaya')).models();
-
-module.exports= function (req,res,next) {
-	if(req.options.action === "update")	
-	{
-		if(models[req.options.controller].schema.hasOwnProperty('safeAttributes'))
+module.exports= function (models) {
+	return function (req,res,next) {
+		if(req.options.action === "update")	
 		{
-			models[req.options.controller].schema.safeAttributes.map(function (val) {
-				delete req.body[val];
-				delete req.Params[val];
-			});
-			next();
+			if(models[req.options.controller].schema.hasOwnProperty('safeAttributes'))
+			{
+				models[req.options.controller].schema.safeAttributes.map(function (val) {
+					delete req.body[val];
+					delete req.Params[val];
+				});
+				next();
+			}
+			else
+			{
+				next();
+			}
 		}
 		else
 		{
 			next();
 		}
-	}
-	else
-	{
-		next();
 	}
 }

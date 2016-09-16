@@ -7,7 +7,7 @@ module.exports= function (app,models,controllers) {
 
 		if(controllers[controllerName] && controllers[controllerName].hasOwnProperty('find'))
 		{
-			console.log('\nRegistering find route for '+lowerCaseModel+' using '+controllerName+' .find');
+			// console.log('\nRegistering find route for '+lowerCaseModel+' using '+controllerName+' .find');
 			app['get']('/'+lowerCaseModel,controllers[controllerName].find);
 		}
 		// else
