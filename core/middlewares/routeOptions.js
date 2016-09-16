@@ -5,22 +5,52 @@ var capitalize= require('./utils/capitalize');
 var testUrl= pathToRegexp('/:model/:id?',[]);
 var url= require('url');
 
-module.exports= function (req,res,next) {
-	var test= testUrl.exec(url.parse(req.url).pathname);
-	var options= {
-		method: req.method,
-		controller: undefined,
-		action: undefined
-	};
+var allSupportedActions= ['find','findOne','create','update','destroy'];
 
-	if(test)
-	{
-		options['controller']=capitalize(test[1]);
-		options['action']=routeMap(req.method,test[2]);
+var _= require('lodash');
+
+module.exports= function (controllers) {
+	return function (req,res,next) {
+		var test= testUrl.exec(url.parse(req.url).pathname);
+		var options= {
+			method: req.method,
+			controller: undefined,
+			action: undefined
+		};
+
+		if(test)
+		{
+			options['controller']=capitalize(test[1]);
+
+			var allAdditionalRoutesInController;
+			if(controllers[capitalize(test[1])+'Controller'])
+			{
+				allAdditionalRoutesInController=Object.keys(controllers[capitalize(test[1])+'Controller']);
+				allAdditionalRoutesInController=_.difference(allAdditionalRoutesInController, allSupportedActions);
+			}
+
+			console.log(allAdditionalRoutesInController,allSupportedActions.indexOf(test[2]));
+
+			if(allAdditionalRoutesInController && allAdditionalRoutesInController.indexOf(test[2])>=0)
+			{
+				options['action']=test[2];
+				console.log(1);
+			}
+			else if(allSupportedActions.indexOf(test[2])>=0 )
+			{
+				console.log(2);
+				options['action']=undefined;
+			}
+			else
+			{
+				options['action']=routeMap(req.method,test[2]);
+				console.log(3);
+			}
+		}
+
+		req.options=options;
+
+		// console.log(options);
+		return next();
 	}
-
-	req.options=options;
-
-	console.log(options);
-	return next();
-}
+} 

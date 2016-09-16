@@ -9,7 +9,8 @@ module.exports= function (models,controllers,token) {
 	app.use(middlewares.aggregateParams);
 
 	app.use(middlewares.routeValidate);
-	app.use(middlewares.routeOptions);
+	app.use(middlewares.routeOptions(controllers));
+
 	app.use(middlewares.token(token));
 	app.use(middlewares.safeAttributes(models));
 

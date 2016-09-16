@@ -1,12 +1,10 @@
-var ObjectId= require('mongodb').ObjectId;
-
 module.exports= function (method,action) {
 	if(!isNaN(action))
 		action= parseFloat(action);
 
 	switch (method) {
 		case 'GET':
-			if(ObjectId.isValid(action))
+			if(action)
 				return 'findOne';
 			else if(typeof(action)==="undefined")
 				return "find";
@@ -20,13 +18,13 @@ module.exports= function (method,action) {
 				return action;
 			break;
 		case 'PUT':
-			if(ObjectId.isValid(action))
+			if(action)
 				return 'update';
 			else
 				return action;
 			break;
 		case 'DELETE':
-			if(ObjectId.isValid(action))
+			if(action)
 				return 'destroy';
 			else
 				return action;
