@@ -1,49 +1,23 @@
-// var find= require('../../blueprint/find');
+var _= require('lodash');
+
 module.exports= function (app,models,controllers) {
-	var modelNames=[];
-	for(var model in models)
-	{
-		modelNames.push(model);
-		var lowerCaseModel= model.toLowerCase();
-		var controllerName= model+'Controller';
 
-		var allSupportedActions= ['find','findOne','create','update','destroy'];
-		
-		for(var key in controllers[controllerName])
-		{
-			if(allSupportedActions.indexOf(key) <0)
-			{
-				app['get']('/'+lowerCaseModel+'/'+key,controllers[controllerName][key]);
-				app['post']('/'+lowerCaseModel+'/'+key,controllers[controllerName][key]);
-				app['put']('/'+lowerCaseModel+'/'+key,controllers[controllerName][key]);
-				app['delete']('/'+lowerCaseModel+'/'+key,controllers[controllerName][key]);
-			}
-		}		
-		
-	}
-
-	var controllerDerivedFromModel= modelNames.map(function (model) {
-		return model+'Controller';
-	});
-
+	var allSupportedActions= ['find','findOne','create','update','destroy'];
+	
 	Object.keys(controllers)
-	.filter(function (controllerName) {
-		if(controllerDerivedFromModel.indexOf(controllerName) <0)
-			return controllerName;
+	.map(function (val) {
+		return {controller:val,routes:_.difference( Object.keys(controllers[val]),allSupportedActions )}
 	})
-	.map(function (controllerName) {
-		var lowerCaseControllerName= controllerName.toLowerCase();
-		lowerCaseControllerName= lowerCaseControllerName.split('controller')[0];
-
-		for(var key in controllers[controllerName])
-		{
-			// console.log(controllerName,' : ',key);
-			app['get']('/'+lowerCaseControllerName+'/'+key,controllers[controllerName][key]);	
-			app['post']('/'+lowerCaseControllerName+'/'+key,controllers[controllerName][key]);	
-			app['put']('/'+lowerCaseControllerName+'/'+key,controllers[controllerName][key]);	
-			app['delete']('/'+lowerCaseControllerName+'/'+key,controllers[controllerName][key]);	
-		}	
-	});
+	.map(function (val) {
+		val.routes.forEach(function (route) {
+			// console.log('Controller = ',val.controller,' Route = ',route);
+			var controller= val.controller.toLowerCase().split('controller')[0];
+			app['get']('/'+controller+'/'+route,controllers[val.controller][route]);
+			app['post']('/'+controller+'/'+route,controllers[val.controller][route]);
+			app['put']('/'+controller+'/'+route,controllers[val.controller][route]);
+			app['delete']('/'+controller+'/'+route,controllers[val.controller][route]);
+		});
+	})
 
 	return app;
 }

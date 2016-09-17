@@ -29,22 +29,17 @@ module.exports= function (controllers) {
 				allAdditionalRoutesInController=_.difference(allAdditionalRoutesInController, allSupportedActions);
 			}
 
-			console.log(allAdditionalRoutesInController,allSupportedActions.indexOf(test[2]));
-
 			if(allAdditionalRoutesInController && allAdditionalRoutesInController.indexOf(test[2])>=0)
 			{
 				options['action']=test[2];
-				console.log(1);
 			}
 			else if(allSupportedActions.indexOf(test[2])>=0 )
 			{
-				console.log(2);
 				options['action']=undefined;
 			}
 			else
 			{
 				options['action']=routeMap(req.method,test[2]);
-				console.log(3);
 			}
 		}
 

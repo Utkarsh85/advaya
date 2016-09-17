@@ -1,6 +1,6 @@
 module.exports= function (method,action) {
-	if(!isNaN(action))
-		action= parseFloat(action);
+	// if(!isNaN(action))
+	// 	action= parseFloat(action);
 
 	switch (method) {
 		case 'GET':
