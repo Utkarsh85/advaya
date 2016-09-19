@@ -1,4 +1,3 @@
-// var create= require('../../blueprint/create');
 module.exports= function (app,models,controllers) {
 	for(var model in models)
 	{

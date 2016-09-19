@@ -1,4 +1,3 @@
-// var find= require('../../blueprint/find');
 module.exports= function (app,models,controllers) {
 	for(var model in models)
 	{

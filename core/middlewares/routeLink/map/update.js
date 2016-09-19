@@ -1,4 +1,5 @@
-// var update= require('../../blueprint/update');
+var paramsConvertMiddleware= require('./utils/paramsConvertMiddleware');
+
 module.exports= function (app,models,controllers) {
 	for(var model in models)
 	{
@@ -6,7 +7,7 @@ module.exports= function (app,models,controllers) {
 		var controllerName= model+'Controller';
 
 		if(controllers[controllerName] && controllers[controllerName].hasOwnProperty('update'))
-			app['put']('/'+lowerCaseModel+'/:id',controllers[controllerName].update);
+			app['put']('/'+lowerCaseModel+'/:id',[paramsConvertMiddleware,controllers[controllerName].update]);
 		// else
 		// 	app['put']('/'+lowerCaseModel+'/:id',update);
 	}
