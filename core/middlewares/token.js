@@ -7,12 +7,12 @@ module.exports=function (token) {
 		//has authorization header
 		if(req.headers.hasOwnProperty('authorization'))
 		{
-			var token=req.headers['authorization'].split('Bearer ')[1];
+			var bearerToken=req.headers['authorization'].split('Bearer ')[1];
 
-			if(!token.verify(token))
+			if(!token.verify(bearerToken))
 				return res.status(401).json({msg:"Malformed token supplied",status:4300});
 
-		    var decoded= token.payload(token);
+		    var decoded= token.payload(bearerToken);
 
 		    var authName=defaults['authenticated_default'];
 		    if(decoded.hasOwnProperty('auth'))
