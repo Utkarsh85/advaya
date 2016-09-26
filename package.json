@@ -1,6 +1,6 @@
 {
   "name": "advaya",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Cool rest based framework",
   "main": "index.js",
   "scripts": {
