@@ -20,17 +20,15 @@ module.exports= function (req,res,next) {
 		if(Required && Array.isArray(Required))
 			buildSchema.required= Required;
 
-		// else if(Required === false)
-		// {
-			
-		// }
+		else if(Required === 'all')
+			buildSchema.required= required;
 
-		// else if(typeof(isRequired) === "undefined")
-		// 	buildSchema.required= required;
+		else (typeof(Required) === "undefined")
+			buildSchema.required= required;
+
 
 		buildSchema.properties= schema;
 
-		// console.log(buildSchema);
 		if(obj)
 			var isValid = v.validate(buildSchema,obj);
 		else			
