@@ -17,13 +17,13 @@ module.exports= function (req,res,next) {
 		}
 
 		//If required is defined then work accordingly, or by defualt the required is set to true
-		if(Required && Array.isArray(Required))
+		if(Required && Array.isArray(Required) && Required.length>0)
 			buildSchema.required= Required;
 
 		else if(Required === 'all')
 			buildSchema.required= required;
 
-		else (typeof(Required) === "undefined")
+		else if (typeof(Required) === "undefined")
 			buildSchema.required= required;
 
 
